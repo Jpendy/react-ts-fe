@@ -3,6 +3,11 @@ import { fetchVerifyUser, fetchLogout, fetchSignup, fetchLogin } from '../servic
 import { RequestError } from '../types/error';
 import { IUser } from '../types/user';
 
+export interface UserAuthBody {
+    email: string;
+    password: string;
+}
+
 interface AuthContextInterface {
     activeUser: IUser | null;
     setActiveUser: Dispatch<SetStateAction<IUser | null>>;
@@ -12,11 +17,6 @@ interface AuthContextInterface {
     login(body: UserAuthBody): void;
     logout(): void;
     [key: string]: any;
-}
-
-interface UserAuthBody {
-    email: string;
-    password: string;
 }
 
 const AuthContext = React.createContext<AuthContextInterface>({} as AuthContextInterface);
@@ -30,7 +30,6 @@ export default function AuthProvider({ children }: any) {
         setAuthLoading(true)
         fetchVerifyUser()
             .then(user => setActiveUser(user))
-            .catch(err => setAuthError(err))
             .finally(() => setAuthLoading(false))
     }, [])
 
@@ -52,7 +51,10 @@ export default function AuthProvider({ children }: any) {
             .finally(() => setAuthLoading(false))
     }
 
-    const logout = () => fetchLogout().then(() => setActiveUser(null))
+    const logout = () => {
+        setAuthError(null)
+        fetchLogout().then(() => setActiveUser(null))
+    }
 
     return (
         <AuthContext.Provider value={{ activeUser, setActiveUser, authLoading, authError, signup, login, logout }} >
