@@ -4,19 +4,20 @@ import {
   Route
 } from 'react-router-dom';
 import HomePage from '../components/homePage/HomePage';
-import Login from '../components/login/Login';
-import Signup from '../components/signup/Signup';
+import AuthForm from '../components/authForm/AuthForm';
 import AuthProvider from '../providers/AuthProvider';
+import Header from '../components/header/Header';
 
 function App() {
   return (
     <>
       <Router>
         <AuthProvider>
+          <Header />
           <Routes>
             <Route path='/' element={<HomePage />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/signup' element={<Signup />} />
+            <Route path='/login' element={<AuthForm type='login' />} />
+            <Route path='/signup' element={<AuthForm type='signup' />} />
           </Routes>
         </AuthProvider>
       </Router>
