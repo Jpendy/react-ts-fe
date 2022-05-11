@@ -1,5 +1,5 @@
 import { AppBar, Box, Button, Toolbar, Typography } from '@mui/material'
-import { useActiveUser, useLogout } from '../../providers/AuthProvider'
+import { useActiveUser, useLogout } from '../../providers/authProvider/AuthProvider'
 import { useNavigate } from 'react-router-dom'
 import { styled } from '@mui/system'
 

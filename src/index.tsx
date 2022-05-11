@@ -4,6 +4,7 @@ import './index.css';
 import App from './app/App';
 import reportWebVitals from './reportWebVitals';
 import ErrorBoundary from './components/errorBoundary/ErrorBoundary';
+import UtilitiesProvider from './providers/utilitiesProvider/UtilitiesProvider';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -11,7 +12,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ErrorBoundary>
-      <App />
+      <UtilitiesProvider>
+        <App />
+      </UtilitiesProvider>
     </ErrorBoundary>
   </React.StrictMode>
 );

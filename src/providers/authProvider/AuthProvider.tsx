@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, SetStateAction, Dispatch } from 'react';
-import { fetchVerifyUser, fetchLogout, fetchSignup, fetchLogin } from '../services/auth';
-import { RequestError } from '../types/error';
-import { IUser } from '../types/user';
+import { fetchVerifyUser, fetchLogout, fetchSignup, fetchLogin } from '../../services/auth';
+import { RequestError } from '../../types/error';
+import { IUser } from '../../types/user';
 
 export interface UserAuthBody {
     email: string;
