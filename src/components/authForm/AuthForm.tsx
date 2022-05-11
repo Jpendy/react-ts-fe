@@ -6,7 +6,6 @@ import { Box, styled } from '@mui/system'
 const StyledBox = styled(Box, {})({
     height: '100vh',
     display: 'flex',
-    justifyContent: 'center',
     alignItems: 'center'
 })
 
@@ -34,15 +33,26 @@ const StyledTypography = styled(Typography, {})({
 
 export default function AuthForm({ type }: { type: 'login' | 'signup' }) {
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [{ email, password }, setAuthFormInfo] = useState({
+        email: '',
+        password: ''
+    })
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setAuthFormInfo(prev => ({ ...prev, [e.target.name]: e.target.value }))
+    }
 
     const authFnMap: { [key: string]: any } = {
         signup: useSignup,
         login: useLogin,
     }
 
-    const handleSubmit = authFnMap[type]()
+    const submitFn = authFnMap[type]()
+
+    const handleSubmit = () => {
+        submitFn({ email, password })
+        setAuthFormInfo({ email: '', password: '' })
+    }
     const authError = useAuthError()
 
     return (
@@ -56,42 +66,51 @@ export default function AuthForm({ type }: { type: 'login' | 'signup' }) {
                             </Typography>
                         </AuthFormHeader>
                         <FormBox >
-                            <Grid
-                                container
-                                direction='column'
-                                alignItems='center'
-                                justifyContent='center'
-                                rowSpacing='20px'
+                            <form
+                                onSubmit={(e) => {
+                                    e.preventDefault()
+                                    handleSubmit()
+                                }}
                             >
-                                <Grid item >
-                                    <TextField
-                                        size='small'
-                                        value={email}
-                                        onChange={e => setEmail(e.target.value)}
-                                        label='email'
-                                        variant='outlined'
-                                    />
+                                <Grid
+                                    container
+                                    direction='column'
+                                    alignItems='center'
+                                    rowSpacing='20px'
+                                >
+                                    <Grid item >
+                                        <TextField
+                                            name='email'
+                                            value={email}
+                                            size='small'
+                                            label='email'
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </Grid>
+                                    <Grid item >
+                                        <TextField
+                                            name='password'
+                                            value={password}
+                                            type='password'
+                                            size='small'
+                                            label='password'
+                                            onChange={handleChange}
+                                            required
+                                        />
+                                    </Grid>
+                                    <Grid item >
+                                        <Button
+                                            type='submit'
+                                            //height and width here are exact same as TextField size small
+                                            sx={{ width: '222.67px', height: '40px' }}
+                                        >
+                                            submit
+                                        </Button>
+                                    </Grid>
+                                    <StyledTypography>{authError}</StyledTypography>
                                 </Grid>
-                                <Grid item >
-                                    <TextField
-                                        size='small'
-                                        label='password'
-                                        value={password}
-                                        onChange={e => setPassword(e.target.value)}
-                                    />
-                                </Grid>
-                                <Grid item >
-                                    <Button
-                                        type='submit'
-                                        onClick={() => handleSubmit({ email, password })}
-                                        //height and width here are exact same as TextField size small
-                                        sx={{ width: '222.67px', height: '40px' }}
-                                    >
-                                        submit
-                                    </Button>
-                                </Grid>
-                                <StyledTypography>{authError}</StyledTypography>
-                            </Grid>
+                            </form>
                         </FormBox>
                     </Paper>
                 </Grid>
