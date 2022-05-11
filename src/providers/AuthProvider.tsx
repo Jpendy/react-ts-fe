@@ -21,9 +21,9 @@ interface AuthContextInterface {
 
 const AuthContext = React.createContext<AuthContextInterface>({} as AuthContextInterface);
 
-export default function AuthProvider({ children }: any) {
+export default function AuthProvider({ children }: { children: React.ReactNode }) {
     const [activeUser, setActiveUser] = useState<IUser | null>(null);
-    const [authLoading, setAuthLoading] = useState(false);
+    const [authLoading, setAuthLoading] = useState<boolean>(false);
     const [authError, setAuthError] = useState<RequestError | null>(null);
 
     useEffect(() => {
