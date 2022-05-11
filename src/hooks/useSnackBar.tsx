@@ -13,14 +13,16 @@ export default function useSnackBar() {
     const [isOpen, setIsOpen] = useState(false)
     const [messageContent, setMessageContent] = useState('')
     const [severity, setSeverity] = useState<Severity>('info')
-    const [anchorOrigin, setAnchorOrigin] = useState<SnackbarOrigin>({ vertical: 'bottom', horizontal: 'right' })
+
+    const defaultOrigin: SnackbarOrigin = { vertical: 'bottom', horizontal: 'right' }
+    const [anchorOrigin, setAnchorOrigin] = useState<SnackbarOrigin>(defaultOrigin)
 
     const handleClose = () => setIsOpen(false)
 
-    const triggerSnackBar = (severity: Severity, content: string, origin?: SnackbarOrigin) => {
+    const triggerSnackBar = (severity: Severity, content: string, origin: SnackbarOrigin = defaultOrigin) => {
         setSeverity(severity)
         setMessageContent(content)
-        if (origin) setAnchorOrigin(origin)
+        setAnchorOrigin(origin)
         setIsOpen(true)
     }
 
@@ -30,14 +32,12 @@ export default function useSnackBar() {
             autoHideDuration={6000}
             onClose={handleClose}
             anchorOrigin={anchorOrigin}
-        // message="Note archived"
         // action={action}
         >
             <Alert
                 onClose={handleClose}
                 severity={severity}
                 variant='filled'
-                sx={{ width: '100%' }}
             >
                 {messageContent}
             </Alert>

@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { useAuthError, useLogin, useSignup } from '../../providers/authProvider/AuthProvider'
+import { useAuthError, useLogin, useSetAuthError, useSignup } from '../../providers/authProvider/AuthProvider'
 import { Button, Grid, Paper, TextField, Typography } from '@mui/material'
 import { Box, styled } from '@mui/system'
+import { useTriggerSnackBar } from '../../providers/utilitiesProvider/UtilitiesProvider'
 
 const StyledBox = styled(Box, {})({
     height: '100vh',
@@ -32,6 +33,8 @@ const StyledTypography = styled(Typography, {})({
 })
 
 export default function AuthForm({ type }: { type: 'login' | 'signup' }) {
+    const authError = useAuthError()
+    const setAuthError = useSetAuthError()
 
     const [{ email, password }, setAuthFormInfo] = useState({
         email: '',
@@ -49,11 +52,17 @@ export default function AuthForm({ type }: { type: 'login' | 'signup' }) {
 
     const submitFn = authFnMap[type]()
 
-    const handleSubmit = () => {
-        submitFn({ email, password })
-        setAuthFormInfo({ email: '', password: '' })
+    const triggerSnackBar = useTriggerSnackBar()
+
+    const handleSubmit = async () => {
+        setAuthError(null)
+        if (!email.trim() || !password.trim()) {
+            triggerSnackBar('error', 'Please fill out all required fields')
+            return
+        }
+        const res = await submitFn({ email, password })
+        if (res.ok) setAuthFormInfo({ email: '', password: '' })
     }
-    const authError = useAuthError()
 
     return (
         <StyledBox>
