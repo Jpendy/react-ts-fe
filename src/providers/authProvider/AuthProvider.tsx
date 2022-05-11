@@ -13,6 +13,7 @@ interface AuthContextInterface {
     setActiveUser: Dispatch<SetStateAction<IUser | null>>;
     authLoading: boolean;
     authError: RequestError | null;
+    setAuthError: Dispatch<SetStateAction<RequestError | null>>
     signup(body: UserAuthBody): void;
     login(body: UserAuthBody): void;
     logout(): void;
@@ -57,7 +58,7 @@ export default function AuthProvider({ children }: { children: React.ReactNode }
     }
 
     return (
-        <AuthContext.Provider value={{ activeUser, setActiveUser, authLoading, authError, signup, login, logout }} >
+        <AuthContext.Provider value={{ activeUser, setActiveUser, authLoading, authError, setAuthError, signup, login, logout }} >
             {children}
         </AuthContext.Provider>
     )
@@ -72,3 +73,4 @@ export const useLogin = () => useAuthSelector('login')
 export const useLogout = () => useAuthSelector('logout')
 export const useAuthError = () => useAuthSelector('authError')
 export const useAuthLoading = () => useAuthSelector('authLoading')
+export const useSetAuthError = () => useAuthSelector('setAuthError')

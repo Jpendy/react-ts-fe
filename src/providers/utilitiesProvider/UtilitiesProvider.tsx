@@ -4,7 +4,7 @@ import { Severity, SnackbarOrigin } from '../../hooks/useSnackBar';
 
 interface UtilitiesContextInterface {
     SnackBar: React.FC;
-    triggerSnackBar(severity: Severity, content: string, origin?: SnackbarOrigin): void;
+    triggerSnackBar(severity: Severity, content: string, origin: SnackbarOrigin): void;
     [key: string]: any
 }
 
