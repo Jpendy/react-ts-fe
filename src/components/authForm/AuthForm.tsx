@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useAuthError, useLogin, useSignup } from '../../providers/AuthProvider'
+import { useAuthError, useLogin, useSignup } from '../../providers/authProvider/AuthProvider'
 import { Button, Grid, Paper, TextField, Typography } from '@mui/material'
 import { Box, styled } from '@mui/system'
 

@@ -1,4 +1,4 @@
-import { UserAuthBody } from "../providers/AuthProvider";
+import { UserAuthBody } from "../providers/authProvider/AuthProvider";
 import { IUser } from "../types/user";
 import { get, post } from "./request";
 

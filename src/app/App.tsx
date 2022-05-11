@@ -8,14 +8,19 @@ import {
 } from 'react-router-dom';
 import HomePage from '../components/homePage/HomePage';
 import AuthForm from '../components/authForm/AuthForm';
-import AuthProvider, { useActiveUser } from '../providers/AuthProvider';
+import AuthProvider, { useActiveUser } from '../providers/authProvider/AuthProvider';
 import Header from '../components/header/Header';
+import { useSnackBar } from '../providers/utilitiesProvider/UtilitiesProvider';
 
 function App() {
+
+  const SnackBar = useSnackBar()
+
   return (
     <>
       <Router>
         <AuthProvider>
+          <SnackBar />
           <Header />
           <Routes>
             <Route path='/' element={<HomePage />} />
